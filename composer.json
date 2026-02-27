@@ -1,0 +1,49 @@
+{
+    "name": "sickdaflip/mage2-fixdepersonalize",
+    "description": "Prevents Magento FPC DepersonalizePlugin from clearing the customer session during Hyva Checkout's TYPE_FORWARD second dispatch cycle.",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Philipp Breitsprecher",
+            "email": "philippbreitsprecher@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "keywords": [
+        "magento2",
+        "hyva",
+        "checkout",
+        "fpc",
+        "full-page-cache",
+        "depersonalize",
+        "bugfix"
+    ],
+    "require": {
+        "php": "^8.4",
+        "magento/framework": "^103.0",
+        "magento/module-page-cache": "^100.0",
+        "magento/module-checkout": "^100.0",
+        "magento/module-customer": "^103.0"
+    },
+    "suggest": {
+        "hyva-themes/magento2-hyva-checkout": "The bug this module fixes originates in Hyva Checkout's TYPE_FORWARD dispatch."
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "FlipDev\\FixDepersonalize\\": "src/"
+        }
+    },
+    "extra": {
+        "map": [
+            [
+                "*",
+                "FlipDev/FixDepersonalize"
+            ]
+        ]
+    }
+}
