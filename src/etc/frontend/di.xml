@@ -6,7 +6,7 @@
                 type="FlipDev\FixDepersonalize\Plugin\DepersonalizeCheckerPlugin"
                 sortOrder="10"/>
     </type>
-    <type name="Magento\Checkout\CustomerData\LastOrderedItems">
+    <type name="Magento\Sales\CustomerData\LastOrderedItems">
         <plugin name="flipdev_fix_last_ordered_items"
                 type="FlipDev\FixDepersonalize\Plugin\LastOrderedItemsPlugin"
                 sortOrder="10"/>
