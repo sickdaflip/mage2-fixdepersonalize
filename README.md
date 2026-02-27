@@ -41,7 +41,7 @@ Two plugins are provided:
 
 ### `DepersonalizeCheckerPlugin`
 
-Overrides `Magento\PageCache\Model\DepersonalizeChecker::needToProcess()` and
+Overrides `Magento\PageCache\Model\DepersonalizeChecker::checkIfDepersonalize()` and
 returns `false` for the `checkout`, `hyva_checkout` and `customer` module
 routes. This prevents the customer session from being cleared on those pages.
 
@@ -93,7 +93,7 @@ is required.
 ## Upstream Bug Report
 
 This module works around a confirmed bug in Hyva Checkout. A bug report has
-been filed in the `#hyva-checkout` channel on [hyva-themes.slack.com](https://hyva-themes.slack.com).
+been filed in the `#hyva-general` channel on [hyva-themes.slack.com](https://hyva-themes.slack.com).
 
 **Suggested upstream fix:** Either avoid `TYPE_FORWARD` in the Hyva Checkout
 controller plugin so no second dispatch cycle occurs, or propagate the
