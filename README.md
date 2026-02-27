@@ -47,8 +47,8 @@ routes. This prevents the customer session from being cleared on those pages.
 
 ### `LastOrderedItemsPlugin`
 
-Catches `NoSuchEntityException` in
-`Magento\Checkout\CustomerData\LastOrderedItems::getSectionData()`.  
+Catches exceptions in
+`Magento\Sales\CustomerData\LastOrderedItems::getSectionData()`.  
 When a product that was part of a previous order has been deleted from the
 catalog, this exception would otherwise bubble up during checkout initialisation
 and cause an additional redirect or blank page.
@@ -67,8 +67,21 @@ and cause an additional redirect or blank page.
 
 ## Installation
 
+Add the repository to your project's `composer.json`:
+
+```json
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "https://github.com/sickdaflip/mage2-fixdepersonalize"
+    }
+]
+```
+
+Then install:
+
 ```bash
-composer require flipdev/module-fix-depersonalize
+composer require sickdaflip/mage2-fixdepersonalize:dev-main
 bin/magento module:enable FlipDev_FixDepersonalize
 bin/magento setup:upgrade
 bin/magento cache:flush
@@ -80,7 +93,7 @@ bin/magento cache:flush
 
 ```bash
 bin/magento module:disable FlipDev_FixDepersonalize
-composer remove flipdev/module-fix-depersonalize
+composer remove sickdaflip/mage2-fixdepersonalize
 bin/magento setup:upgrade
 bin/magento cache:flush
 ```
