@@ -1,14 +1,17 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Fix LastOrderedItems NoSuchEntityException on customer section load -->
+    <type name="Magento\Sales\CustomerData\LastOrderedItems">
+        <plugin name="flipdev_fix_depersonalize_last_ordered_items"
+                type="FlipDev\FixDepersonalize\Plugin\LastOrderedItemsPlugin"/>
+    </type>
+
+    <!-- Fix FPC depersonalization clearing customer session on Hyva Checkout -->
     <type name="Magento\PageCache\Model\DepersonalizeChecker">
         <plugin name="flipdev_fix_depersonalize_checker"
-                type="FlipDev\FixDepersonalize\Plugin\DepersonalizeCheckerPlugin"
-                sortOrder="10"/>
+                type="FlipDev\FixDepersonalize\Plugin\DepersonalizeCheckerPlugin"/>
     </type>
-    <type name="Magento\Sales\CustomerData\LastOrderedItems">
-        <plugin name="flipdev_fix_last_ordered_items"
-                type="FlipDev\FixDepersonalize\Plugin\LastOrderedItemsPlugin"
-                sortOrder="10"/>
-    </type>
+
 </config>
