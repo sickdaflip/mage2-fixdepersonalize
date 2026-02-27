@@ -38,15 +38,6 @@ use Magento\PageCache\Model\DepersonalizeChecker;
 
 class DepersonalizeCheckerPlugin
 {
-    /**
-     * Module routes that must never have their customer session cleared.
-     */
-    private const PROTECTED_ROUTES = [
-        'checkout',
-        'hyva_checkout',
-        'customer',
-    ];
-
     public function __construct(
         private readonly RequestInterface $request,
     ) {
@@ -55,26 +46,31 @@ class DepersonalizeCheckerPlugin
     /**
      * Suppress depersonalization for checkout and customer routes.
      *
-     * Returning false skips all subsequent plugins and the original
-     * checkIfDepersonalize() method, ensuring the customer session survives
-     * the TYPE_FORWARD second dispatch.
+     * Uses an after plugin so the original checkIfDepersonalize() logic runs
+     * first. If it already returned false, we respect that. Otherwise we
+     * override the result for protected routes to prevent the customer session
+     * from being cleared during the TYPE_FORWARD second dispatch.
      *
      * @param DepersonalizeChecker $subject
-     * @param callable             $proceed
+     * @param bool                 $result
      * @param LayoutInterface      $layout
      * @return bool
      */
-    public function aroundCheckIfDepersonalize(
+    public function afterCheckIfDepersonalize(
         DepersonalizeChecker $subject,
-        callable $proceed,
+        bool $result,
         LayoutInterface $layout,
     ): bool {
-        $moduleName = (string) $this->request->getModuleName();
-
-        if (in_array($moduleName, self::PROTECTED_ROUTES, true)) {
+        if (!$result) {
             return false;
         }
 
-        return (bool) $proceed($layout);
+        $moduleName = $this->request->getModuleName();
+
+        if ($moduleName === 'hyva_checkout' || $moduleName === 'checkout' || $moduleName === 'customer') {
+            return false;
+        }
+
+        return $result;
     }
 }
