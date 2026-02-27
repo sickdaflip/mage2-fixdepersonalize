@@ -15,13 +15,13 @@ declare(strict_types=1);
  * calls clearStorage() on the customer session — because the checkout layout
  * XML sets cacheable="false" but layout XML is only parsed *after* the
  * controller dispatch completes, so the non-cacheable flag is unknown at the
- * time DepersonalizeChecker::needToProcess() runs.
+ * time DepersonalizeChecker::checkIfDepersonalize() runs.
  *
  * Result: getCustomerId() returns null → hasItems() returns false → the
  * customer is redirected back to cart.
  *
  * Fix:
- * Return false from needToProcess() for the checkout, hyva_checkout and
+ * Return false from checkIfDepersonalize() for the checkout, hyva_checkout and
  * customer module routes, preventing depersonalization on those pages
  * regardless of FPC state.
  *
@@ -33,6 +33,7 @@ declare(strict_types=1);
 namespace FlipDev\FixDepersonalize\Plugin;
 
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\View\LayoutInterface;
 use Magento\PageCache\Model\DepersonalizeChecker;
 
 class DepersonalizeCheckerPlugin
@@ -54,16 +55,19 @@ class DepersonalizeCheckerPlugin
     /**
      * Suppress depersonalization for checkout and customer routes.
      *
-     * Returning false skips all subsequent plugins and the original method,
-     * ensuring the customer session survives the TYPE_FORWARD second dispatch.
+     * Returning false skips all subsequent plugins and the original
+     * checkIfDepersonalize() method, ensuring the customer session survives
+     * the TYPE_FORWARD second dispatch.
      *
      * @param DepersonalizeChecker $subject
      * @param callable             $proceed
+     * @param LayoutInterface      $layout
      * @return bool
      */
-    public function aroundNeedToProcess(
+    public function aroundCheckIfDepersonalize(
         DepersonalizeChecker $subject,
         callable $proceed,
+        LayoutInterface $layout,
     ): bool {
         $moduleName = (string) $this->request->getModuleName();
 
@@ -71,6 +75,6 @@ class DepersonalizeCheckerPlugin
             return false;
         }
 
-        return (bool) $proceed();
+        return (bool) $proceed($layout);
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\PageCache\Model\DepersonalizeChecker">
+        <plugin name="flipdev_fix_depersonalize_checker"
+                type="FlipDev\FixDepersonalize\Plugin\DepersonalizeCheckerPlugin"
+                sortOrder="10"/>
+    </type>
+    <type name="Magento\Checkout\CustomerData\LastOrderedItems">
+        <plugin name="flipdev_fix_last_ordered_items"
+                type="FlipDev\FixDepersonalize\Plugin\LastOrderedItemsPlugin"
+                sortOrder="10"/>
+    </type>
+</config>
