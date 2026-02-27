@@ -67,20 +67,8 @@ and cause an additional redirect or blank page.
 
 ## Installation
 
-Add the repository to your project's `composer.json`:
-
-```json
-"repositories": [
-    {
-        "type": "vcs",
-        "url": "https://github.com/sickdaflip/mage2-fixdepersonalize"
-    }
-]
-```
-
-Then install:
-
 ```bash
+composer config repositories.sickdaflip/mage2-fixdepersonalize vcs https://github.com/sickdaflip/mage2-fixdepersonalize.git
 composer require sickdaflip/mage2-fixdepersonalize:dev-main
 bin/magento module:enable FlipDev_FixDepersonalize
 bin/magento setup:upgrade
